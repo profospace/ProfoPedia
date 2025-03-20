@@ -24,9 +24,9 @@ import PropertyDashboard from './pages/PropertyDashboard';
 const App = () => {
   return (
       <Routes>
-      <Route path="/property" element={<PropertyDashboard />} />
-        <Route path="/" element={<TehsilMohallaDashboard />} />
-        <Route path="/saved-records" element={<SavedRecords />} />
+      <Route path="/" element={<PropertyDashboard />} />
+        {/* <Route path="/" element={<TehsilMohallaDashboard />} />
+        <Route path="/saved-records" element={<SavedRecords />} /> */}
       </Routes>
   );
 };
