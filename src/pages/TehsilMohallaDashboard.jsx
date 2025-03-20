@@ -19284,7 +19284,7 @@ const TehsilMohallaDashboard = () => {
                     <div className="bg-white p-5 rounded-xl shadow-md">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-semibold text-gray-700">
-                                {getDisplayName(selectedTehsil)} {text.mohallasOf}
+                                {getDisplayName(selectedTehsil)} {text.mohallasOf} - {filteredVillages?.length}
                             </h2>
 
                             <div className="flex gap-3">
