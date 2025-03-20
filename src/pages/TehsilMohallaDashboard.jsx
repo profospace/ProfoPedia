@@ -9625,6 +9625,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Globe, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { base_url } from '../utils/base_url';
 
 // Language translations
 const translations = {
@@ -19187,7 +19188,7 @@ const TehsilMohallaDashboard = () => {
 
         try {
             // API call to fetch property data
-            const response = await fetch('http://localhost:8000/api/property-data', {
+            const response = await fetch(`${base_url}/api/property-data`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
