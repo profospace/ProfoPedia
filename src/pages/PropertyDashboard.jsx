@@ -331,6 +331,86 @@ const PropertyDashboard = () => {
     };
 
     // Search function - Submit new search criteria to API
+    // const handleSearch = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         setLoading(true);
+    //         setError(null);
+    //         setPage(1); // Reset to first page on new search
+
+    //         // Check required fields
+    //         if (!districtCode || !sroCode || !gaonCode1) {
+    //             setError('District Code, SRO Code, and Village Code are required');
+    //             setLoading(false);
+    //             return;
+    //         }
+
+    //         // Prepare request body
+    //         const requestBody = {
+    //             districtCode,
+    //             sroCode,
+    //             propertyId: propertyId || '',
+    //             propNEWAddress: '1',
+    //             gaonCode1
+    //         };
+
+    //         // Send search request to API
+    //         // const response = await fetch(`${base_url}/api/property-records`, {
+    //         //     method: 'POST',
+    //         //     headers: {
+    //         //         'Content-Type': 'application/json'
+    //         //     },
+    //         //     body: JSON.stringify(requestBody)
+    //         // });
+
+
+    //         const response = await fetch(`${base_url}/api/property-records?districtCode=${districtCode}&sroCode=${sroCode}&gaonCode1=${gaonCode1}`)
+
+    //         // Handle non-successful responses
+    //         if (!response.ok) {
+    //             const errorData = await response.json();
+    //             throw new Error(errorData.message || 'Failed to fetch property data');
+    //         }
+
+    //         // Parse data from successful response
+    //         const data = await response.json();
+    //         console.log("Search response:", data);
+
+    //         // Update state with API response - handle different possible response structures
+    //         let propertyRecords = [];
+
+    //         if (data && data.data && Array.isArray(data.data)) {
+    //             // Direct array of property records
+    //             propertyRecords = data.data;
+    //         } else if (data && data.data && data.data.propertyRecords && Array.isArray(data.data.propertyRecords)) {
+    //             // Nested property records array
+    //             propertyRecords = data.data.propertyRecords;
+    //         } else if (data && Array.isArray(data)) {
+    //             // Data is directly the array
+    //             propertyRecords = data;
+    //         }
+
+    //         setRecords(propertyRecords);
+    //         setTotalRecords(propertyRecords.length);
+    //         setTotalPages(Math.ceil(propertyRecords.length / limit));
+
+    //         // Show success message if records were found
+    //         if (propertyRecords.length > 0) {
+    //             setError(null);
+    //         } else {
+    //             setError('No property records found for the given criteria.');
+    //         }
+
+    //     } catch (err) {
+    //         setError('An error occurred: ' + (err.message || err));
+    //         console.error('Error searching property data:', err);
+    //         setRecords([]);
+    //         setTotalRecords(0);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
     const handleSearch = async (e) => {
         e.preventDefault();
 
@@ -356,13 +436,7 @@ const PropertyDashboard = () => {
             };
 
             // Send search request to API
-            const response = await fetch(`${base_url}/api/property-data`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            });
+            const response = await fetch(`${base_url}/api/property-records?districtCode=${districtCode}&sroCode=${sroCode}&gaonCode1=${gaonCode1}`);
 
             // Handle non-successful responses
             if (!response.ok) {
@@ -374,18 +448,21 @@ const PropertyDashboard = () => {
             const data = await response.json();
             console.log("Search response:", data);
 
-            // Update state with API response - handle different possible response structures
+            // Extract property records based on the actual data structure
             let propertyRecords = [];
 
-            if (data && data.data && Array.isArray(data.data)) {
-                // Direct array of property records
-                propertyRecords = data.data;
-            } else if (data && data.data && data.data.propertyRecords && Array.isArray(data.data.propertyRecords)) {
-                // Nested property records array
-                propertyRecords = data.data.propertyRecords;
+            if (data && data.success && data.data && Array.isArray(data.data)) {
+                // Check if data.data[0] has propertyRecords (as in your example JSON)
+                if (data.data[0] && Array.isArray(data.data[0].propertyRecords)) {
+                    propertyRecords = data.data[0].propertyRecords;
+                } else {
+                    // Fallback if the structure is different
+                    propertyRecords = data.data;
+                }
             } else if (data && Array.isArray(data)) {
-                // Data is directly the array
                 propertyRecords = data;
+            } else if (data && data.data && Array.isArray(data.data.propertyRecords)) {
+                propertyRecords = data.data.propertyRecords;
             }
 
             setRecords(propertyRecords);
@@ -404,6 +481,7 @@ const PropertyDashboard = () => {
             console.error('Error searching property data:', err);
             setRecords([]);
             setTotalRecords(0);
+            setTotalPages(0);
         } finally {
             setLoading(false);
         }
