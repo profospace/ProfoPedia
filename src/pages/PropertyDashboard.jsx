@@ -1729,7 +1729,7 @@ const PropertyDashboard = () => {
                 propertyId: property._id || undefined
             };
 
-            const response = await fetch(`${base_url}/details/property-records/fetch-detail`, {
+            const response = await fetch(`${base_url}/deeds/property-records/fetch-detail`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

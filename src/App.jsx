@@ -100,7 +100,7 @@ function App() {
                 }
               />
 
-              {/* <Route path="/test" element={<PropertyDashboard />} /> */}
+              <Route path="/test" element={<PropertyDashboard />} />
               <Route path="/deeds" element={<AllDeeds deeds={deeds} setDeeds={setDeeds}/>} />
               <Route path="/deeds/:id" element={<DeedDetails />} />
               {/* <Route path="/analytics" element={<Analytics />} /> */}
