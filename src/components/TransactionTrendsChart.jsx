@@ -36,8 +36,9 @@ const TransactionTrendsChart = ({
     }
 
     // Format the data for the chart
-    const chartData = data.map(item => ({
-        month: item.month || 'Unknown',
+    const chartData = data.slice(0, 11).map(item => ({
+        // month: item.regDate?.slice(' ')[3] || 'Unknown',
+        month: item.regdate?.slice(' ')[3] + item.regdate?.slice(' ')[4] + item.regdate?.slice(' ')[5] + item.regdate?.slice(' ')[6] + item.regdate?.slice(' ')[9] + item.regdate?.slice(' ')[10] || 'Unknown',
         count: item.count || 0,
         transactionValue: item.transactionValue || 0,
         marketValue: item.marketValue || 0

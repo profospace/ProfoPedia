@@ -16,8 +16,15 @@ import TransactionTrendsChart from '../components/TransactionTrendsChart';
 import axios from 'axios';
 import { base_url } from '../utils/base_url';
 import PropertyTypeChart from '../components/PropertyTypeChart';
+import FloorUnitAnalysisChart from '../components/FloorUnitAnalysisChart';
+import ValueComparisonChart from '../components/ValueComparisonChart';
+import StampDutyChart from '../components/StampDutyChart';
+import MohallaChart from '../components/MohallaChart';
+import MohallaChartWithDropDown from '../components/MohallaChartWithDropDown';
+import PropertyTypeHeatmap from '../components/PropertyTypeHeatmap';
 
-function Dashboard({ stats, loading, error, refresh , deeds }) {
+function Dashboard({ stats, loading, error, refresh, deeds }) {
+    console.log(deeds)
 
     if (loading) {
         return (
@@ -49,7 +56,7 @@ function Dashboard({ stats, loading, error, refresh , deeds }) {
     }
 
     // Extract data from stats
-    const totalDeeds = stats?.totalDeeds || 0;
+    const totalDeeds = deeds?.length || 0;
     const totalTransactionValue = stats?.financialStats?.totalTransactionValue || 0;
     const totalMarketValue = stats?.financialStats?.totalMarketValue || 0;
     const totalStampDuty = stats?.financialStats?.totalStampDuty || 0;
@@ -166,21 +173,7 @@ function Dashboard({ stats, loading, error, refresh , deeds }) {
 
             {/* Charts and tables */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                {/* Recent deeds */}
-                <div className="bg-white rounded-lg shadow">
-                    <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h2 className="text-lg font-medium text-gray-900">Recent Deeds</h2>
-                        <Link
-                            to="/deeds"
-                            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                            View all
-                        </Link>
-                    </div>
-                    <div className="p-1">
-                        <RecentDeedsTable />
-                    </div>
-                </div>
+
 
                 {/* Deed type distribution */}
                 <div className="bg-white rounded-lg shadow">
@@ -202,19 +195,19 @@ function Dashboard({ stats, loading, error, refresh , deeds }) {
             </div>
 
             {/* Transaction chart and District insights */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Transaction Value Chart */}
-                <div className="bg-white rounded-lg shadow lg:col-span-2">
-                    <div className="px-6 py-4 border-b border-gray-200">
-                        <h2 className="text-lg font-medium text-gray-900">Transaction Value Trends</h2>
-                    </div>
-                    <div className="p-4 h-80">
-                        <TransactionTrendsChart />
-                    </div>
+            {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> */}
+            {/* Transaction Value Chart */}
+            <div className="bg-white rounded-lg shadow lg:col-span-2">
+                <div className="px-6 py-4 border-b border-gray-200">
+                    <h2 className="text-lg font-medium text-gray-900">Transaction Value Trends</h2>
                 </div>
+                <div className="py-2 h-80">
+                    <TransactionTrendsChart data={deeds} />
+                </div>
+            </div>
 
-                {/* District insights */}
-                <div className="bg-white rounded-lg shadow">
+            {/* District insights */}
+            {/* <div className="bg-white rounded-lg shadow">
                     <div className="px-6 py-4 border-b border-gray-200">
                         <h2 className="text-lg font-medium text-gray-900">Top Districts</h2>
                     </div>
@@ -265,8 +258,55 @@ function Dashboard({ stats, loading, error, refresh , deeds }) {
                             </Link>
                         </div>
                     </div>
+                </div> */}
+            {/* </div> */}
+
+            {/* Recent deeds  - temporaray commnet*/}
+            {/* <div className="bg-white rounded-lg shadow my-4">
+                <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 className="text-lg font-medium text-gray-900">Recent Deeds</h2>
+                    <Link
+                        to="/deeds"
+                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                        View all
+                    </Link>
                 </div>
-            </div>
+                <div className="p-1">
+                    <RecentDeedsTable data={deeds} />
+                </div>
+            </div> */}
+
+            {/* // Transaction value view (default)
+            <MohallaChart data={deeds} />
+
+// Price per square meter analysis
+            <MohallaChart data={deeds} view="pricePerSqm" />
+
+// Transaction count analysis
+            <MohallaChart data={deeds} view="count" />
+
+// Land type distribution
+            <MohallaChart data={deeds} view="landType" />
+
+// Limit number of localities shown
+            <MohallaChart data={deeds} limit={15} /> */}
+
+
+
+            <MohallaChartWithDropDown data={deeds} />
+
+            <PropertyTypeHeatmap data={deeds} />
+
+
+
+            <FloorUnitAnalysisChart data={deeds} />
+            <ValueComparisonChart data={deeds} />
+            <StampDutyChart data={deeds} />
+            <StampDutyChart data={deeds} view="average" />
+
+
+
         </div>
     );
 }
