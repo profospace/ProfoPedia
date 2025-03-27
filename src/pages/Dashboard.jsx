@@ -22,6 +22,22 @@ import StampDutyChart from '../components/StampDutyChart';
 import MohallaChart from '../components/MohallaChart';
 import MohallaChartWithDropDown from '../components/MohallaChartWithDropDown';
 import PropertyTypeHeatmap from '../components/PropertyTypeHeatmap';
+import AreaPriceTrendAnalysis from '../components/AreaPriceTrendAnalysis';
+import RealEstateMarketDashboard from '../components/RealEstateMarketDashboard';
+import AreaWrapper from '../components/AreaWrapper';
+import AffordabilityIndexAnalysis from '../components/AffordabilityIndexAnalysis';
+import TopLocalitiesByTransactions from '../components/TopLocalitiesByTransactions';
+import GeographicDistributionMap from '../components/GeographicDistributionMap';
+import TimelineVisualization from '../components/TimelineVisualization';
+import PropertyComparisonTool from '../components/PropertyComparisonTool';
+import PropertyValueEstimator from '../components/PropertyValueEstimator';
+import TransactionVolumeForecastingTool from '../components/TransactionVolumeForecastingTool';
+import SeasonalTransactionPatterns from '../components/SeasonalTransactionPatterns';
+import FamilyPropertyTransferTracker from '../components/FamilyPropertyTransferTracker';
+import PropertyPredictionDashboard from '../components/PropertyPredictionDashboard';
+import PropertyInsightsDashboard from '../components/PropertyInsightsDashboard';
+import MobileInspectionTool from '../components/MobileInspectionTool';
+import PropertyPriceAnalyzer from '../components/PropertyPriceAnalyzer';
 
 function Dashboard({ stats, loading, error, refresh, deeds }) {
     console.log(deeds)
@@ -292,6 +308,22 @@ function Dashboard({ stats, loading, error, refresh, deeds }) {
 // Limit number of localities shown
             <MohallaChart data={deeds} limit={15} /> */}
 
+
+            {/* <MobileInspectionTool data={deeds} /> */}
+            {/* <PropertyInsightsDashboard data={deeds} /> */}
+            <PropertyPriceAnalyzer propertyData={deeds} />
+            <PropertyPredictionDashboard data={deeds} />
+            <FamilyPropertyTransferTracker data={deeds} />
+            <SeasonalTransactionPatterns data={deeds} />
+            <TransactionVolumeForecastingTool data={deeds} />
+            <PropertyValueEstimator data={deeds} />
+            <PropertyComparisonTool data={deeds} />
+            <TimelineVisualization data={deeds} />
+            <GeographicDistributionMap data={deeds} />
+            <TopLocalitiesByTransactions data={deeds} />
+            <AreaWrapper deeds={deeds} />
+            <RealEstateMarketDashboard data={deeds} />
+            <AffordabilityIndexAnalysis data={deeds} />
 
 
             <MohallaChartWithDropDown data={deeds} />
