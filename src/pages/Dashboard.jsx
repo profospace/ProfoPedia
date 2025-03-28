@@ -311,33 +311,7 @@ function Dashboard({ stats, loading, error, refresh, deeds }) {
 
 
             {/* <MobileInspectionTool data={deeds} /> */}
-            {/* <PropertyInsightsDashboard data={deeds} /> */}
-            <PropertyOutliers data={deeds} />
-            <PropertyPriceAnalyzer propertyData={deeds} />
-            <PropertyPredictionDashboard data={deeds} />
-            <FamilyPropertyTransferTracker data={deeds} />
-            <SeasonalTransactionPatterns data={deeds} />
-            <TransactionVolumeForecastingTool data={deeds} />
-            <PropertyValueEstimator data={deeds} />
-            <PropertyComparisonTool data={deeds} />
-            <TimelineVisualization data={deeds} />
-            <GeographicDistributionMap data={deeds} />
-            <TopLocalitiesByTransactions data={deeds} />
-            <AreaWrapper deeds={deeds} />
-            <RealEstateMarketDashboard data={deeds} />
-            <AffordabilityIndexAnalysis data={deeds} />
-
-
-            <MohallaChartWithDropDown data={deeds} />
-
-            <PropertyTypeHeatmap data={deeds} />
-
-
-
-            <FloorUnitAnalysisChart data={deeds} />
-            <ValueComparisonChart data={deeds} />
-            <StampDutyChart data={deeds} />
-            <StampDutyChart data={deeds} view="average" />
+            
 
 
 

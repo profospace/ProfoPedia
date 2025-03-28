@@ -416,14 +416,29 @@ import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import AllDeeds from './pages/AllDeeds';
 import DeedDetails from './pages/DeedDetails';
-// import Analytics from './pages/Analytics';
 import UploadDeeds from './pages/UploadDeeds';
 import axios from 'axios';
 import PropertyDashboard from './pages/PropertyDashboard';
-// import Parties from './pages/Parties';
 import Settings from './pages/Settings';
 import { base_url } from './utils/base_url';
 
+// Import new components for property analysis
+import PropertyInsightsDashboard from './components/PropertyInsightsDashboard';
+import PropertyOutliers from './components/PropertyOutliers';
+import PropertyPriceAnalyzer from './components/PropertyPriceAnalyzer';
+import PropertyPredictionDashboard from './components/PropertyPredictionDashboard';
+import FamilyPropertyTransferTracker from './components/FamilyPropertyTransferTracker';
+import SeasonalTransactionPatterns from './components/SeasonalTransactionPatterns';
+import TransactionVolumeForecastingTool from './components/TransactionVolumeForecastingTool';
+import PropertyValueEstimator from './components/PropertyValueEstimator';
+import PropertyComparisonTool from './components/PropertyComparisonTool';
+import TimelineVisualization from './components/TimelineVisualization';
+import GeographicDistributionMap from './components/GeographicDistributionMap';
+import TopLocalitiesByTransactions from './components/TopLocalitiesByTransactions';
+import RealEstateMarketDashboard from './components/RealEstateMarketDashboard';
+import AffordabilityIndexAnalysis from './components/AffordabilityIndexAnalysis';
+import MohallaChartWithDropDown from './components/MohallaChartWithDropDown';
+import PropertyValueHistogram from './components/PropertyValueHistogram';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -517,6 +532,7 @@ function App() {
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
           <div className="px-4 sm:px-6 lg:px-2 py-2 w-full max-w-9xl mx-auto">
             <Routes>
+              {/* Main routes */}
               <Route
                 path="/"
                 element={
@@ -529,16 +545,35 @@ function App() {
                   />
                 }
               />
-
-              <Route path="/test" element={<PropertyDashboard />} />
               <Route path="/deeds" element={<AllDeeds deeds={deeds} setDeeds={setDeeds} district={district} />} />
               <Route path="/deeds/:id" element={<DeedDetails />} />
-              {/* <Route path="/analytics" element={<Analytics />} /> */}
               <Route path="/upload" element={<UploadDeeds refresh={fetchStats} />} />
-              {/* <Route path="/parties" element={<Parties />} /> */}
               <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
 
+              {/* Property Analysis Routes */}
+              <Route path="/property-insights" element={<PropertyInsightsDashboard data={deeds} />} />
+              <Route path="/property-outliers" element={<PropertyOutliers data={deeds} />} />
+              <Route path="/price-analyzer" element={<PropertyPriceAnalyzer propertyData={deeds} />} />
+              <Route path="/property-prediction" element={<PropertyPredictionDashboard data={deeds} />} />
+              <Route path="/value-estimator" element={<PropertyValueEstimator data={deeds} />} />
+              <Route path="/property-comparison" element={<PropertyComparisonTool data={deeds} />} />
+
+              {/* Market Analysis Routes */}
+              <Route path="/market-dashboard" element={<RealEstateMarketDashboard data={deeds} />} />
+              <Route path="/affordability-index" element={<AffordabilityIndexAnalysis data={deeds} />} />
+              <Route path="/seasonal-patterns" element={<SeasonalTransactionPatterns data={deeds} />} />
+              <Route path="/transaction-forecast" element={<TransactionVolumeForecastingTool data={deeds} />} />
+
+              {/* Location & History Routes */}
+              <Route path="/geographic-map" element={<GeographicDistributionMap data={deeds} />} />
+              <Route path="/top-localities" element={<TopLocalitiesByTransactions data={deeds} />} />
+              <Route path="/timeline" element={<TimelineVisualization data={deeds} />} />
+              <Route path="/family-transfers" element={<FamilyPropertyTransferTracker data={deeds} />} />
+              <Route path="/mohalla-charts" element={<MohallaChartWithDropDown data={deeds} />} />
+              <Route path="/last-transaction-finder" element={<PropertyValueHistogram data={deeds} />} />
+
+              {/* Fallback route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
         </main>
@@ -546,7 +581,6 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
 

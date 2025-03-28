@@ -476,14 +476,14 @@ const AffordabilityIndexAnalysis = ({ data }) => {
                                 />
                                 <Tooltip
                                     formatter={(value, name, props) => {
-                                        const typeData = propertyTypeAffordability[props.payload.index];
+                                        const typeData = propertyTypeAffordability[props?.payload?.index];
                                         return [
                                             <div>
                                                 <div>Affordability: {value?.toFixed(2)}</div>
                                                 <div>Typical Price: ₹{(typeData?.typicalPropertyPrice / 100000).toFixed(1)}L</div>
                                                 <div>Median Size: {typeData?.medianSize?.toFixed(0)} sqm</div>
                                             </div>,
-                                            typeData.type
+                                            typeData?.type
                                         ];
                                     }}
                                 />
@@ -494,7 +494,7 @@ const AffordabilityIndexAnalysis = ({ data }) => {
             </div>
 
             {/* Bottom Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
                 {/* Affordability Trend */}
                 <div className="bg-gray-50 rounded-lg p-5">
                     <h3 className="text-lg font-medium text-gray-800 mb-4">Affordability Trend</h3>

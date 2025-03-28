@@ -7,6 +7,9 @@ const SeasonalTransactionPatterns = ({ data }) => {
     const [selectedYear, setSelectedYear] = useState(null);
     const [peakMonth, setPeakMonth] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [localities, setLocalities] = useState([]);
+    const [selectedLocality, setSelectedLocality] = useState('all');
+    const [filteredData, setFilteredData] = useState([]);
 
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -31,6 +34,10 @@ const SeasonalTransactionPatterns = ({ data }) => {
         }
 
         try {
+            // Extract all unique localities
+            const uniqueLocalities = [...new Set(data.map(item => item.locality))].sort();
+            setLocalities(['all', ...uniqueLocalities]);
+
             // Process each transaction
             const processedData = data.map(item => {
                 // Parse the registration date (format: "DD MMM YYYY")
@@ -46,62 +53,85 @@ const SeasonalTransactionPatterns = ({ data }) => {
                 const month = monthMap[dateParts[1]];
                 const year = parseInt(dateParts[2]);
 
+                // Handle years with only two digits (like "20" instead of "2020")
+                const fullYear = year < 100 ? 2000 + year : year;
+
                 return {
                     id: item._id,
                     deedType: item.deedType,
+                    locality: item.locality,
                     day,
                     month,
-                    year,
+                    year: fullYear,
                     dateString: item.registrationDate
                 };
             });
 
             setTransactions(processedData);
+            setFilteredData(processedData);
 
-            // Extract unique years
-            const uniqueYears = [...new Set(processedData.map(tx => tx.year))].sort().reverse();
-            setYears(uniqueYears);
+            // Set default selected locality
+            setSelectedLocality('all');
 
-            // Set default selected year to the most recent
-            if (uniqueYears.length > 0) {
-                setSelectedYear(uniqueYears[0]);
-            }
-
-            // Group data by year and month
-            const dataByYear = {};
-            uniqueYears.forEach(year => {
-                dataByYear[year] = Array(12).fill(0);
-            });
-
-            // Count transactions per month per year
-            processedData.forEach(tx => {
-                if (dataByYear[tx.year]) {
-                    dataByYear[tx.year][tx.month]++;
-                }
-            });
-
-            setYearlyData(dataByYear);
-
-            // Find peak month across all years
-            let maxCount = 0;
-            let peakMonthInfo = { year: null, month: null };
-
-            uniqueYears.forEach(year => {
-                dataByYear[year].forEach((count, month) => {
-                    if (count > maxCount) {
-                        maxCount = count;
-                        peakMonthInfo = { year, month };
-                    }
-                });
-            });
-
-            setPeakMonth(peakMonthInfo);
             setLoading(false);
         } catch (error) {
             console.error("Error processing data:", error);
             setLoading(false);
         }
     }, [data]);
+
+    // Filter data and update stats when locality or year selection changes
+    useEffect(() => {
+        if (transactions.length === 0) return;
+
+        // Filter transactions by locality
+        const filtered = selectedLocality === 'all'
+            ? transactions
+            : transactions.filter(tx => tx.locality === selectedLocality);
+
+        setFilteredData(filtered);
+
+        // Extract unique years from filtered data
+        const uniqueYears = [...new Set(filtered.map(tx => tx.year))].sort().reverse();
+        setYears(uniqueYears);
+
+        // Set default selected year to the most recent if available
+        if (uniqueYears.length > 0) {
+            setSelectedYear(uniqueYears[0]);
+        } else {
+            setSelectedYear(null);
+        }
+
+        // Group data by year and month
+        const dataByYear = {};
+        uniqueYears.forEach(year => {
+            dataByYear[year] = Array(12).fill(0);
+        });
+
+        // Count transactions per month per year
+        filtered.forEach(tx => {
+            if (dataByYear[tx.year]) {
+                dataByYear[tx.year][tx.month]++;
+            }
+        });
+
+        setYearlyData(dataByYear);
+
+        // Find peak month across all years
+        let maxCount = 0;
+        let peakMonthInfo = { year: null, month: null };
+
+        uniqueYears.forEach(year => {
+            dataByYear[year].forEach((count, month) => {
+                if (count > maxCount) {
+                    maxCount = count;
+                    peakMonthInfo = { year, month };
+                }
+            });
+        });
+
+        setPeakMonth(peakMonthInfo);
+    }, [transactions, selectedLocality]);
 
     // Get color intensity based on count
     const getColorIntensity = (count, max) => {
@@ -138,6 +168,10 @@ const SeasonalTransactionPatterns = ({ data }) => {
         return yearlyData[year].reduce((sum, count) => sum + count, 0);
     };
 
+    const handleLocalityChange = (e) => {
+        setSelectedLocality(e.target.value);
+    };
+
     if (loading) {
         return <div className="flex justify-center items-center h-64">Loading transaction data...</div>;
     }
@@ -150,24 +184,54 @@ const SeasonalTransactionPatterns = ({ data }) => {
         <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl font-bold mb-4">Seasonal Transaction Patterns</h2>
 
-            {/* Year selector */}
+            {/* Locality selector */}
             <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Select Year:</label>
-                <div className="flex flex-wrap gap-2">
-                    {years.map(year => (
-                        <button
-                            key={year}
-                            onClick={() => setSelectedYear(year)}
-                            className={`px-4 py-2 rounded-md ${selectedYear === year
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Village/Locality:</label>
+                <select
+                    value={selectedLocality}
+                    onChange={handleLocalityChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+                    {localities.map(locality => (
+                        <option key={locality} value={locality}>
+                            {locality === 'all' ? 'All Localities' : locality}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* Transaction count indicator */}
+            <div className="mb-6 p-4 bg-gray-50 rounded-md">
+                <p className="text-gray-700">
+                    <span className="font-medium">Total Transactions:</span> {filteredData.length}
+                    {selectedLocality !== 'all' && ` in ${selectedLocality}`}
+                </p>
+            </div>
+
+            {/* Year selector */}
+            {years.length > 0 ? (
+                <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Year:</label>
+                    <div className="flex flex-wrap gap-2">
+                        {years.map(year => (
+                            <button
+                                key={year}
+                                onClick={() => setSelectedYear(year)}
+                                className={`px-4 py-2 rounded-md ${selectedYear === year
                                     ? 'bg-blue-600 text-white'
                                     : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                                }`}
-                        >
-                            {year}
-                        </button>
-                    ))}
+                                    }`}
+                            >
+                                {year}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className="text-center py-4 mb-6 bg-gray-50 rounded-md">
+                    <p className="text-gray-700">No transaction data available for the selected locality</p>
+                </div>
+            )}
 
             {selectedYear && (
                 <>

@@ -8,7 +8,22 @@ import {
     Users,
     Settings,
     Menu,
-    X
+    X,
+    Home as Property,
+    TrendingUp,
+    PieChart,
+    Calendar,
+    Users as Family,
+    Map,
+    Activity,
+    DollarSign,
+    ArrowUpDown,
+    Clock,
+    Target,
+    Layers,
+    Building,
+    BarChart,
+    Thermometer
 } from 'lucide-react';
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
@@ -40,7 +55,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     });
 
     return (
-        <div className=''>
+        <div>
             {/* Mobile sidebar backdrop */}
             <div
                 className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -52,11 +67,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             {/* Sidebar */}
             <div
                 ref={sidebar}
-                className={`fixed min-h-screen inset-y-0 left-0 z-40 w-64 overflow-y-auto bg-white border-r border-gray-200 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform transition-transform duration-200 ${sidebarOpen ? 'translate-x-0' : '-translate-x-64'
-                    }`}
+                className={`fixed h-screen inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform transition-transform duration-200 flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-64'}`}
             >
                 {/* Sidebar header */}
-                <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 h-16">
                     <div className="flex items-center">
                         <svg className="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19.5 7.5h-15v9h15v-9zM8.25 14.25h-1.5v-3h1.5v3zM12 14.25h-1.5v-3H12v3zM15.75 14.25h-1.5v-3h1.5v3z" />
@@ -75,91 +89,304 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     </button>
                 </div>
 
-                {/* Navigation */}
-                <nav className="px-3 py-4">
-                    <div className="space-y-1">
-                        <NavLink
-                            to="/"
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600'
-                                    : 'text-gray-700 hover:bg-gray-100'
-                                }`
-                            }
-                        >
-                            <Home className="mr-3 h-5 w-5" />
-                            <span>Dashboard</span>
-                        </NavLink>
+                {/* Navigation - This is the scrollable area */}
+                <div className="overflow-y-auto h-[calc(100vh-6rem)]">
+                    <nav className="px-3 py-4">
+                        <div className="space-y-0.5">
+                            {/* Main menu items */}
+                            <NavLink
+                                to="/"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Home className="mr-3 h-5 w-5" />
+                                <span>Dashboard</span>
+                            </NavLink>
 
-                        <NavLink
-                            to="/deeds"
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600'
-                                    : 'text-gray-700 hover:bg-gray-100'
-                                }`
-                            }
-                        >
-                            <FileText className="mr-3 h-5 w-5" />
-                            <span>All Deeds</span>
-                        </NavLink>
+                            <NavLink
+                                to="/deeds"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <FileText className="mr-3 h-5 w-5" />
+                                <span>All Deeds</span>
+                            </NavLink>
 
-                        <NavLink
-                            to="/analytics"
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600'
-                                    : 'text-gray-700 hover:bg-gray-100'
-                                }`
-                            }
-                        >
-                            <BarChart2 className="mr-3 h-5 w-5" />
-                            <span>Analytics</span>
-                        </NavLink>
+                            <NavLink
+                                to="/last-transaction-finder"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Upload className="mr-3 h-5 w-5" />
+                                <span>Last Transaction Finder</span>
+                            </NavLink>
 
-                        <NavLink
-                            to="/upload"
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600'
-                                    : 'text-gray-700 hover:bg-gray-100'
-                                }`
-                            }
-                        >
-                            <Upload className="mr-3 h-5 w-5" />
-                            <span>Upload Deeds</span>
-                        </NavLink>
+                            <NavLink
+                                to="/upload"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Upload className="mr-3 h-5 w-5" />
+                                <span>Upload Deeds</span>
+                            </NavLink>
 
-                        <NavLink
-                            to="/parties"
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600'
-                                    : 'text-gray-700 hover:bg-gray-100'
-                                }`
-                            }
-                        >
-                            <Users className="mr-3 h-5 w-5" />
-                            <span>Parties</span>
-                        </NavLink>
+                            {/* Property Analysis Section */}
+                            <div className="pt-3 pb-1">
+                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">
+                                    Property Analysis
+                                </h3>
+                            </div>
 
-                        <NavLink
-                            to="/settings"
-                            className={({ isActive }) =>
-                                `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
-                                    ? 'bg-indigo-50 text-indigo-600'
-                                    : 'text-gray-700 hover:bg-gray-100'
-                                }`
-                            }
-                        >
-                            <Settings className="mr-3 h-5 w-5" />
-                            <span>Settings</span>
-                        </NavLink>
-                    </div>
-                </nav>
+                            <NavLink
+                                to="/property-insights"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Property className="mr-3 h-5 w-5" />
+                                <span>Property Insights</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/property-outliers"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Thermometer className="mr-3 h-5 w-5" />
+                                <span>Property Outliers</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/price-analyzer"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <DollarSign className="mr-3 h-5 w-5" />
+                                <span>Price Analyzer</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/value-estimator"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Target className="mr-3 h-5 w-5" />
+                                <span>Value Estimator</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/property-comparison"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <ArrowUpDown className="mr-3 h-5 w-5" />
+                                <span>Property Comparison</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/property-prediction"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <TrendingUp className="mr-3 h-5 w-5" />
+                                <span>Price Prediction</span>
+                            </NavLink>
+
+                            {/* Market Analysis Section */}
+                            <div className="pt-3 pb-1">
+                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">
+                                    Market Analysis
+                                </h3>
+                            </div>
+
+                            <NavLink
+                                to="/market-dashboard"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <BarChart className="mr-3 h-5 w-5" />
+                                <span>Market Dashboard</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/affordability-index"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Activity className="mr-3 h-5 w-5" />
+                                <span>Affordability Index</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/seasonal-patterns"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Calendar className="mr-3 h-5 w-5" />
+                                <span>Seasonal Patterns</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/transaction-forecast"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <PieChart className="mr-3 h-5 w-5" />
+                                <span>Transaction Forecast</span>
+                            </NavLink>
+
+                            {/* Geographic & Timeline Section */}
+                            <div className="pt-3 pb-1">
+                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">
+                                    Location & History
+                                </h3>
+                            </div>
+
+                            <NavLink
+                                to="/geographic-map"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Map className="mr-3 h-5 w-5" />
+                                <span>Geographic Map</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/top-localities"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Building className="mr-3 h-5 w-5" />
+                                <span>Top Localities</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/timeline"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Clock className="mr-3 h-5 w-5" />
+                                <span>Timeline Visualization</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/family-transfers"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Family className="mr-3 h-5 w-5" />
+                                <span>Family Transfers</span>
+                            </NavLink>
+
+                            <NavLink
+                                to="/mohalla-charts"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Layers className="mr-3 h-5 w-5" />
+                                <span>Mohalla Analysis</span>
+                            </NavLink>
+
+                            {/* Settings */}
+                            <div className="pt-3 pb-1">
+                                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3">
+                                    System
+                                </h3>
+                            </div>
+
+                            <NavLink
+                                to="/settings"
+                                className={({ isActive }) =>
+                                    `flex items-center px-3 py-2 rounded-md text-sm font-medium ${isActive
+                                        ? 'bg-indigo-50 text-indigo-600'
+                                        : 'text-gray-700 hover:bg-gray-100'
+                                    }`
+                                }
+                            >
+                                <Settings className="mr-3 h-5 w-5" />
+                                <span>Settings</span>
+                            </NavLink>
+                        </div>
+                    </nav>
+                </div>
 
                 {/* Sidebar footer */}
-                <div className="absolute bottom-0 w-full p-4 border-t border-gray-200">
+                <div className="w-full p-4 border-t border-gray-200 mt-auto">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
                             <div className="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
