@@ -38,6 +38,7 @@ import PropertyPredictionDashboard from '../components/PropertyPredictionDashboa
 import PropertyInsightsDashboard from '../components/PropertyInsightsDashboard';
 import MobileInspectionTool from '../components/MobileInspectionTool';
 import PropertyPriceAnalyzer from '../components/PropertyPriceAnalyzer';
+import PropertyOutliers from '../components/PropertyOutliers';
 
 function Dashboard({ stats, loading, error, refresh, deeds }) {
     console.log(deeds)
@@ -311,6 +312,7 @@ function Dashboard({ stats, loading, error, refresh, deeds }) {
 
             {/* <MobileInspectionTool data={deeds} /> */}
             {/* <PropertyInsightsDashboard data={deeds} /> */}
+            <PropertyOutliers data={deeds} />
             <PropertyPriceAnalyzer propertyData={deeds} />
             <PropertyPredictionDashboard data={deeds} />
             <FamilyPropertyTransferTracker data={deeds} />
